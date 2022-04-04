@@ -16,10 +16,14 @@ router.post('/api/travellers', async (req, res) => {
 router.get('/api/travellers/:id', async (req, res) => {
   const travellerData = await Traveller.findByPk
   (req.params.id); 
-    // include: [{ model: Location, through: Trip}]
-    // }
+    include: [
+      { model: Location, 
+      through: { attributes: []
+    }
+    }]
+    }
 
-    // };
+    };
 res.json(travellerData);
 });
 
@@ -43,11 +47,21 @@ router.post('/api/locations', async (req, res) => {
   res.json(locationData);
   });
 
-router.get('/api/locations/:id', async (req, res) => {
-  const locationData = await Location.findByPk(req.params.id);
-  res.json(locationData);
+  router.get('/api/locations/:id', async (req, res) => {
+    const locationData = await Location.findByPk(
+      req.params.id,
+      {
+        include: [{ 
+          model: Traveller, 
+          through: {
+            attributes: []
+          }
+        }]
+      }
+    );
+   
+    res.json(locationData);
   });
-
 router.delete('/api/locations/:id', async (req, res) => {
   const locationData = await Location.destroy({
     where: {
