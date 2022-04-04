@@ -21,9 +21,8 @@ router.get('/api/travellers/:id', async (req, res) => {
       through: { attributes: []
     }
     }]
-    }
 
-    };
+  
 res.json(travellerData);
 });
 
